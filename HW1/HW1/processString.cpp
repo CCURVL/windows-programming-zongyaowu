@@ -1,7 +1,9 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
-
+#include <algorithm>
+#include <math.h>
+#include <sstream>
 #include <gtest\gtest.h>
 
 using namespace std;
@@ -15,11 +17,53 @@ using namespace std;
 // return 0 if success, (empty string)
 //       -1 if exception occur (ex. string containing non-digit character)
 int getAscendingStr(string& inputStr)
-{
-	
-	/// Please fill your code here
+{	
+	istringstream buffer(inputStr);
+	char chars[] = "()- ";
+	for (unsigned int y = 0; y < strlen(chars); ++y){
+		inputStr.erase(remove(inputStr.begin(), inputStr.end(), chars[y]), inputStr.end());
+	}
+	//cout << inputStr << endl;
+	unsigned int z=0;
+	//cout << inputStr.length() << endl;
+	for (z = 0; z < inputStr.length(); z++) { if (!isdigit(inputStr[z]))return -1; };
+	int x;
+	int value;
+	int iArr[5];
+	for (x = 0; x < 5; x++) {
+		buffer >> value;
+		cout << value << " ";
+		iArr[x] = value;
+	}  
+	cout  << endl;
+	int i,j;
+	int temp = 0;
 
+	for (i = 0; i < 5; i++) {
+		for (j = i; j < 5; j++) {
+			if (iArr[j] < iArr[i]) {
+				temp = iArr[j];
+				iArr[j] = iArr[i];
+				iArr[i] = temp;
+			}
+		}
+	}
 
+	for (i = 0; i < 5; i++) {
+		cout << iArr[i] << " ";
+	}
+	cout << endl;
+	string convert_str;
+	inputStr.clear();
+	for (i = 0; i < 5; i++) {
+	stringstream ss;
+	int number = iArr[i];
+	ss << number;
+	ss >> convert_str;
+	inputStr.append(convert_str);
+	inputStr.append(" ");
+	}
+	inputStr.erase(inputStr.find_last_not_of(" ")+1 );
 	return 0;
 }
 
@@ -36,8 +80,26 @@ int getAscendingStr(string& inputStr)
 //          (return vector size should be 0)
 int solveQ(vector<double> &x, double a, double b, double c)
 {
-
-	return 0;
+	double D;
+	double  y,z;
+	D = b*b - 4 * a*c;
+	cout << D << endl;
+	if (D > 0) {
+		y = (-b + sqrt(D)) /(2 * a);
+		z = (-b - sqrt(D)) /(2 * a);
+		x.push_back(y);
+		x.push_back(z);
+		return 1;
+	}
+	else if (D == 0) {
+		y  = (-b) / (2 * a);
+		x.push_back(y);
+		cout << x[0] << endl;
+		return 0;
+	}
+	else {
+		return -1;
+	}
 }
 
 int main(int argc, char*argv[]) {
