@@ -18,6 +18,17 @@ using namespace std;
 //       -1 if exception occur (ex. string containing non-digit character)
 int getAscendingStr(string& inputStr)
 {	
+	/*int p = inputStr.find(' ');
+	string str = inputStr.substr(0, p);
+	cout << str << endl;*/
+	stringstream s(inputStr);
+	string sub_str;
+	int L = 0;
+	while (getline(s, sub_str, ' ')) {
+		cout << sub_str << endl;
+		L++;																				
+	}
+	cout << L << endl;
 	istringstream buffer(inputStr);
 	char chars[] = "()- ";
 	for (unsigned int y = 0; y < strlen(chars); ++y){
@@ -29,8 +40,8 @@ int getAscendingStr(string& inputStr)
 	for (z = 0; z < inputStr.length(); z++) { if (!isdigit(inputStr[z]))return -1; };
 	int x;
 	int value;
-	int iArr[5];
-	for (x = 0; x < 5; x++) {
+	int iArr[100];
+	for (x = 0; x< L; x++) {														
 		buffer >> value;
 		cout << value << " ";
 		iArr[x] = value;
@@ -39,7 +50,7 @@ int getAscendingStr(string& inputStr)
 	int i,j;
 	int temp = 0;
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < L; i++) {														
 		for (j = i; j < 5; j++) {
 			if (iArr[j] < iArr[i]) {
 				temp = iArr[j];
@@ -49,21 +60,22 @@ int getAscendingStr(string& inputStr)
 		}
 	}
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < L; i++) {
 		cout << iArr[i] << " ";
 	}
 	cout << endl;
 	string convert_str;
 	inputStr.clear();
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < L; i++) {														
 	stringstream ss;
 	int number = iArr[i];
 	ss << number;
 	ss >> convert_str;
-	inputStr.append(convert_str);
+	inputStr.append(convert_str);													
 	inputStr.append(" ");
 	}
-	inputStr.erase(inputStr.find_last_not_of(" ")+1 );
+	inputStr.erase(inputStr.find_last_not_of(" ")+1 );								
+	//delete [] iArr;
 	return 0;
 }
 
@@ -87,7 +99,7 @@ int solveQ(vector<double> &x, double a, double b, double c)
 	if (D > 0) {
 		y = (-b + sqrt(D)) /(2 * a);
 		z = (-b - sqrt(D)) /(2 * a);
-		x.push_back(y);
+		x.push_back(y);																	
 		x.push_back(z);
 		return 1;
 	}
